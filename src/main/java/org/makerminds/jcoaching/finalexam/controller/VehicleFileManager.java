@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
+import org.makerminds.jcoaching.finalexam.model.Car;
+import org.makerminds.jcoaching.finalexam.model.Motorcycle;
 import org.makerminds.jcoaching.finalexam.model.Vehicle;
 
 /**
@@ -24,6 +26,7 @@ public class VehicleFileManager {
 	}
 
 	public List<String> importVehiclesFromFile() {
+
 		List<String> vehicleList = null;
 		try {
 			vehicleList = Files.readAllLines(Paths.get(getClass().getResource(filePath).toURI()));
@@ -45,8 +48,9 @@ public class VehicleFileManager {
 			prepareTheVehicleForRewriting(vehicleStringForRewrite, vehicle);
 		}
 		try {
-			Files.write(Paths.get(getClass().getResource(filePath).toURI()), vehicleStringForRewrite.toString().getBytes()
-					,StandardOpenOption.WRITE,StandardOpenOption.TRUNCATE_EXISTING);
+			Files.write(Paths.get(getClass().getResource(filePath).toURI()),
+					vehicleStringForRewrite.toString().getBytes(), StandardOpenOption.WRITE,
+					StandardOpenOption.TRUNCATE_EXISTING);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,12 +64,21 @@ public class VehicleFileManager {
 	}
 
 	private void prepareTheVehicleForRewriting(StringBuffer vehicleStringForRewrite, Vehicle vehicle) {
-		vehicleStringForRewrite.append(vehicle.getVehicleId()).append(",").append(vehicle.getManufacturer().toString())
-				.append(",").append(vehicle.getModel()).append(",").append(vehicle.getMotorCapacity()).append(",")
-				.append(vehicle.getPrice()).append(",").append(vehicle.getColor().toString()).append(",")
-				.append(vehicle.getActualKilometers()).append(",").append(vehicle.getProductionYear()).append(",")
-				.append(vehicle.getFuelType().toString()).append(",")
-				.append(vehicle.getTransmission().toString() + "\n");
+		if (vehicle.getVehicleId() < 200) {
+			vehicleStringForRewrite.append(vehicle.getVehicleId()).append(",")
+					.append(((Car) vehicle).getManufacturer().toString()).append(",").append(vehicle.getModel())
+					.append(",").append(vehicle.getMotorCapacity()).append(",").append(vehicle.getPrice()).append(",")
+					.append(((Car) vehicle).getColor().toString()).append(",").append(vehicle.getActualKilometers())
+					.append(",").append(vehicle.getProductionYear()).append(",")
+					.append(((Car) vehicle).getFuelType().toString()).append(",")
+					.append(((Car) vehicle).getTransmission().toString() + "\n");
+		} else {
+			vehicleStringForRewrite.append(vehicle.getVehicleId()).append(",").append(vehicle.getModel())
+					.append(",").append(vehicle.getMotorCapacity()).append(",").append(vehicle.getPrice()).append(",")
+					.append(vehicle.getActualKilometers()).append(",").append(vehicle.getProductionYear()).append(",")
+					.append(((Motorcycle) vehicle).isExtendable()).append("\n");
+
+		}
 
 		// TODO add vehicle attribute information to StringBuffer
 		// Hint: vehicleStringForRewrite.append(String)

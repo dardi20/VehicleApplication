@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.makerminds.jcoaching.finalexam.model.Car;
+import org.makerminds.jcoaching.finalexam.model.Motorcycle;
 import org.makerminds.jcoaching.finalexam.model.Vehicle;
 
 /**
@@ -17,10 +19,17 @@ public class VehicleShopPrinter {
 	public void printAvailableVehicles(List<Vehicle> vehicleList) {
 
 		for (Vehicle vehicle : vehicleList) {
-			System.out.println("" + vehicle.getVehicleId() + ", " + vehicle.getManufacturer() + ", "
-					+ vehicle.getModel() + ", " + vehicle.getMotorCapacity() + ", " + vehicle.getPrice() + ", "
-					+ vehicle.getColor() + ", " + vehicle.getActualKilometers() + ", " + vehicle.getProductionYear()
-					+ ", " + vehicle.getFuelType() + ", " + vehicle.getTransmission());
+			if (vehicle.getVehicleId() < 200) {
+				System.out.println("" + vehicle.getVehicleId() + ", " + ((Car) vehicle).getManufacturer() + ", "
+						+ vehicle.getModel() + ", " + vehicle.getMotorCapacity() + ", " + vehicle.getPrice() + ", "
+						+ ((Car) vehicle).getColor() + ", " + vehicle.getActualKilometers() + ", "
+						+ vehicle.getProductionYear() + ", " + ((Car) vehicle).getFuelType() + ", "
+						+ ((Car) vehicle).getTransmission());
+			} else {
+				System.out.println("" + vehicle.getVehicleId() + ", " + vehicle.getModel() + ", "
+						+ vehicle.getMotorCapacity() + ", " + vehicle.getPrice() + ", " + vehicle.getActualKilometers()
+						+ ", " + vehicle.getProductionYear() + ", " + ((Motorcycle) vehicle).isExtendable());
+			}
 		}
 
 		// Implementation of print available vehicles
@@ -75,7 +84,10 @@ public class VehicleShopPrinter {
 		Iterator<Vehicle> vehicleListIterator = vehicleList.iterator();
 		while (vehicleListIterator.hasNext()) {
 			Vehicle actualVehicle = vehicleListIterator.next();
-			if (actualVehicle.getManufacturer().toString().toLowerCase().equals(filterKey.toLowerCase())) {
+			if (actualVehicle.getVehicleId() >= 200) {
+				continue;
+			}
+			if (((Car) actualVehicle).getManufacturer().toString().toLowerCase().equals(filterKey.toLowerCase())) {
 				filteredVehicleList.add(actualVehicle);
 			}
 		}

@@ -3,9 +3,11 @@ package org.makerminds.jcoaching.finalexam.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.makerminds.jcoaching.finalexam.model.Car;
 import org.makerminds.jcoaching.finalexam.model.Color;
 import org.makerminds.jcoaching.finalexam.model.FuelType;
 import org.makerminds.jcoaching.finalexam.model.Manufacturer;
+import org.makerminds.jcoaching.finalexam.model.Motorcycle;
 import org.makerminds.jcoaching.finalexam.model.Transmission;
 import org.makerminds.jcoaching.finalexam.model.Vehicle;
 
@@ -43,22 +45,33 @@ public class VehicleTransformer {
 	 */
 	private Vehicle transformToVehicleObject(String vehicleAsString) {
 		String[] splitedVehicleList = vehicleAsString.split(",");
-		Vehicle vehicle = new Vehicle();
-		vehicle.setVehicleId(Integer.valueOf(splitedVehicleList[0]));
-		vehicle.setManufacturer(generateManufacterer(splitedVehicleList[1]));
-		vehicle.setModel(splitedVehicleList[2]);
-		vehicle.setMotorCapacity(Integer.valueOf(splitedVehicleList[3]));
-		vehicle.setPrice(Double.valueOf(splitedVehicleList[4]));
-		vehicle.setColor(generateColor(splitedVehicleList[5]));
-		vehicle.setActualKilometers(Integer.valueOf(splitedVehicleList[6]));
-		vehicle.setProductionYear(Integer.valueOf(splitedVehicleList[7]));
-		vehicle.setFuelType(generateFuelType(splitedVehicleList[8]));
-		vehicle.setTransmission(generateTransmission(splitedVehicleList[9]));
-
+		if (Integer.valueOf(splitedVehicleList[0]) >= 200) {
+			Motorcycle motorcycle = new Motorcycle();
+			motorcycle.setVehicleId(Integer.valueOf(splitedVehicleList[0]));
+			motorcycle.setModel(splitedVehicleList[1]);
+			motorcycle.setMotorCapacity(Integer.valueOf(splitedVehicleList[2]));
+			motorcycle.setPrice(Double.valueOf(splitedVehicleList[3]));
+			motorcycle.setActualKilometers(Integer.valueOf(splitedVehicleList[4]));
+			motorcycle.setProductionYear(Integer.valueOf(splitedVehicleList[5]));
+			motorcycle.setExtendable(Boolean.valueOf(splitedVehicleList[6]));
+			return motorcycle;
+		} else {
+			Car car = new Car();
+			car.setVehicleId(Integer.valueOf(splitedVehicleList[0]));
+			car.setManufacturer(generateManufacterer(splitedVehicleList[1]));
+			car.setModel(splitedVehicleList[2]);
+			car.setMotorCapacity(Integer.valueOf(splitedVehicleList[3]));
+			car.setPrice(Double.valueOf(splitedVehicleList[4]));
+			car.setColor(generateColor(splitedVehicleList[5]));
+			car.setActualKilometers(Integer.valueOf(splitedVehicleList[6]));
+			car.setProductionYear(Integer.valueOf(splitedVehicleList[7]));
+			car.setFuelType(generateFuelType(splitedVehicleList[8]));
+			car.setTransmission(generateTransmission(splitedVehicleList[9]));
+			return car;
+		}
 		// TODO transform the vehicle as string into a vehicle object
 		// Hint: use the split(String) method of a String to define where to split the
 		// String. In this case split on every comma (;)
-		return vehicle;
 	}
 
 	private Transmission generateTransmission(String transmissionAsString) {
